@@ -14,6 +14,7 @@ type HeroProps = {
 
 function Hero({ heading, description, image }: HeroProps) {
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const [preview, setPreview] = useState<string | null>(null);
     const router = useRouter();
 
     const fileBeenChanged = (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,6 +25,7 @@ function Hero({ heading, description, image }: HeroProps) {
 
         const file = ev.target.files[0];
         setSelectedFile(file);
+        setPreview(URL.createObjectURL(file));
         toast.success("Uploaded file");
         console.log("Selected: ", file);
     };
@@ -82,6 +84,15 @@ function Hero({ heading, description, image }: HeroProps) {
                                 Upload
                             </Button>
                         </div>
+                        {preview && (
+                            <div className="mt-4">
+                                <img
+                                    src={preview}
+                                    alt="Preview"
+                                    className="max-w-xs rounded-md shadow-md"
+                                />
+                            </div>
+                        )}
                     </div>
                     <img
                         src={image}
