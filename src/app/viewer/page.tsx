@@ -2,8 +2,8 @@
 
 import { useSearchParams } from "next/navigation";
 import * as THREE from "three";
-import React, { useEffect, useRef } from "react";
-import { Canvas, useLoader } from "@react-three/fiber";
+import React, { useEffect, useRef , useState } from "react";
+import { Canvas, useLoader , useFrame } from "@react-three/fiber";
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js";
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { toast } from "sonner";
@@ -49,11 +49,25 @@ function BoneCompi({ objUrl }: { objUrl: string }) {
 }
 
 function Boneto({ objUrl }: { objUrl: string }) {
+    const [zoomOut, setZoomOut] = useState(5);
+    const [userInteracted, setUserInteracted] = useState(false);
+
+    useEffect(() => {
+        let zoomInterval: NodeJS.Timeout;
+        if (!userInteracted) {
+            zoomInterval = setInterval(() => {
+                setZoomOut((prev) => Math.min(prev + 21, 1000)); // Gradual zoom out
+            }, 50);
+        }
+        return () => clearInterval(zoomInterval);
+    }, [userInteracted]);
+
     return (
         <div className="flex justify-center items-center h-screen">
-            <Canvas>
-                <PerspectiveCamera makeDefault position={[0, 0, 5]} />
-                <OrbitControls
+            <Canvas onPointerDown={() => setUserInteracted(true)}>
+                <PerspectiveCamera makeDefault position={[0, 0, zoomOut]} />
+                <OrbitControls 
+                    enabled={userInteracted} 
                     enablePan={true}
                     enableZoom={true}
                     enableRotate={true}
@@ -66,6 +80,7 @@ function Boneto({ objUrl }: { objUrl: string }) {
         </div>
     );
 }
+
 
 function Viewer() {
     const searchParams = useSearchParams();
