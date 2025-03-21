@@ -10,8 +10,8 @@ export default function Home() {
             </div>
             <Hero
                 heading="BoneCraft"
-                description="Give me 2D, I give you 3D. Laxmi Chit Fund type shit"
-                // description="Get 3D Bone structures from 2D images"
+                // description="Give me 2D, I give you 3D. Laxmi Chit Fund type shit"
+                description="Get 3D Bone structures from 2D images"
                 image="/logo.jpeg"
             />
         </main>

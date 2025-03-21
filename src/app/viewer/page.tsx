@@ -2,8 +2,8 @@
 
 import { useSearchParams } from "next/navigation";
 import * as THREE from "three";
-import React, { useEffect, useRef , useState } from "react";
-import { Canvas, useLoader , useFrame } from "@react-three/fiber";
+import React, { useEffect, useRef, useState } from "react";
+import { Canvas, useLoader, useFrame } from "@react-three/fiber";
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js";
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { toast } from "sonner";
@@ -66,8 +66,8 @@ function Boneto({ objUrl }: { objUrl: string }) {
         <div className="flex justify-center items-center h-screen">
             <Canvas onPointerDown={() => setUserInteracted(true)}>
                 <PerspectiveCamera makeDefault position={[0, 0, zoomOut]} />
-                <OrbitControls 
-                    enabled={userInteracted} 
+                <OrbitControls
+                    enabled={userInteracted}
                     enablePan={true}
                     enableZoom={true}
                     enableRotate={true}
@@ -81,10 +81,10 @@ function Boneto({ objUrl }: { objUrl: string }) {
     );
 }
 
-
 function Viewer() {
     const searchParams = useSearchParams();
     const objUrl = searchParams.get("objUrl");
+
     if (!objUrl) {
         toast.error("Didn't get back a thing");
         return;

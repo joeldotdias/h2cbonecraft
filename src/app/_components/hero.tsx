@@ -49,6 +49,22 @@ function Hero({ heading, description, image }: HeroProps) {
             const objUrl = URL.createObjectURL(bob);
 
             toast.success("Processed your xray");
+
+            const insightsResponse = await fetch(
+                "http://localhost:5000/analyze",
+                {
+                    method: "POST",
+                    body: formData, // You can reuse the same FormData or send the objUrl
+                },
+            );
+
+            if (!insightsResponse.ok) {
+                toast.error("No insightsss wahhh");
+            }
+            const { insights } = await insightsResponse.json();
+            console.log(insights);
+            localStorage.setItem("xrayInsights", JSON.stringify(insights));
+
             router.push(`/viewer?objUrl=${encodeURIComponent(objUrl)}`);
         } catch (err) {
             console.error(err);
